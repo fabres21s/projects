@@ -28,10 +28,17 @@ public class CashflowStatelessBean implements CashflowStatelessBeanLocal {
     private Query query;
 
 	@Override
-	public List<Cuenta> consultarCuentas() {
-		System.out.println("CashflowStatelessBean.consultarCuentas() ::: llegando al ejb");
+	public List<Cuenta> consultarCuentas(int firstRow, int maxResults) {
 		query = em.createNamedQuery("Cuenta.findAll");
+		query.setFirstResult(firstRow);
+		query.setMaxResults(maxResults);
 		return query.getResultList();
+	}
+
+	@Override
+	public int countRecords(String table) {
+		query = em.createQuery("SELECT COUNT(c) FROM "+table+" c");
+		return ((Long)query.getResultList().get(0)).intValue();
 	}
 
 }

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:aui="http://liferay.com/faces/aui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<meta charset="UTF-8" />
+	<title>Cuentas</title>
+</h:head>
+
+<h:body>
+
+<aui:row id="table">
+	<div class="vd_content-section clearfix">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="panel widget">
+					<div class="panel-heading vd_bg-grey">
+						<h3 class="panel-title">
+							<span class="menu-icon"> <i class="fa fa-dot-circle-o"></i>
+							</span>Cuentas
+						</h3>
+					</div>
+
+					<div class="panel-body table-responsive">
+						<h:dataTable class="table table-hover" var="cuenta"
+							value="#{cashflowBean.cuentas}">
+							<h:column>
+								<f:facet name="header">
+									<h:outputText value="#" />
+								</f:facet>
+								<h:outputText value="#{cuenta.cuenId}" />
+							</h:column>
+
+							<h:column>
+								<f:facet name="header">
+									<h:outputText value="Cuenta" />
+								</f:facet>
+								<h:outputText value="#{cuenta.cuenNombre}" />
+							</h:column>
+
+							<h:column>
+								<f:facet name="header">
+									<h:outputText value="Acción"></h:outputText>
+								</f:facet>
+
+								<div class="menu-action">
+									<h:commandButton class="btn menu-icon vd_bd-green vd_green"  action="#{cashflowBean.test(cuenta)}"></h:commandButton>
+								
+									<a data-original-title="view" data-toggle="tooltip"
+										data-placement="top"
+										class="btn menu-icon vd_bd-green vd_green"  onclick="#{cashflowBean.test(cuenta)}"> <i
+										class="fa fa-eye"></i>
+									</a> <a data-original-title="edit" data-toggle="tooltip"
+										data-placement="top"
+										class="btn menu-icon vd_bd-yellow vd_yellow"> <i
+										class="fa fa-pencil"></i>
+									</a>
+										
+								</div>
+
+							</h:column>
+						</h:dataTable>
+
+						<aui:row id="scrollrow"
+							rendered="#{not empty cashflowBean.cuentas}">
+
+							<ul class="pagination">
+								<li class="prev"><h:commandLink value="First"
+										action="#{cashflowBean.paginator.pageFirst}"
+										disabled="#{cashflowBean.paginator.firstRow == 0}">
+										<f:ajax render="@all" ></f:ajax>
+									</h:commandLink></li>
+							</ul>
+
+							<ul class="pagination">
+								<li class="prev"><h:commandLink value="← Previous"
+										action="#{cashflowBean.paginator.pagePrevious}"
+										disabled="#{cashflowBean.paginator.firstRow == 0}">
+										<f:ajax render="@all" ></f:ajax>
+									</h:commandLink></li>
+							</ul>
+
+							<ui:repeat value="#{cashflowBean.paginator.records}" var="page">
+								<ul class="pagination">
+									<li
+										class="#{(page == cashflowBean.paginator.currentPage) ? 'active' : ''}">
+										<h:commandLink value="#{page}"
+											disabled="#{page == cashflowBean.paginator.currentPage}"
+											actionListener="#{cashflowBean.paginator.page(page)}">
+											<f:ajax render="@all" ></f:ajax>
+										</h:commandLink>
+									</li>
+								</ul>
+							</ui:repeat>
+
+							<ul class="pagination">
+								<li class="next">
+								<h:commandLink value="Next →"
+										action="#{cashflowBean.paginator.pageNext}"
+										disabled="#{cashflowBean.paginator.firstRow + cashflowBean.paginator.sizePage >= cashflowBean.paginator.totalRecords}">
+										<f:ajax render="@all" ></f:ajax>
+								</h:commandLink></li>
+							</ul>
+
+							<ul class="pagination">
+								<li class="next"><h:commandLink value="Last"
+										action="#{cashflowBean.paginator.pageLast}"
+										disabled="#{cashflowBean.paginator.firstRow + cashflowBean.paginator.sizePage >= cashflowBean.paginator.totalRecords}">
+										<f:ajax render="@all" ></f:ajax>
+									</h:commandLink>
+								</li>
+							</ul>
+						</aui:row>
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+</aui:row>
+
+
+</h:body>
+</html>

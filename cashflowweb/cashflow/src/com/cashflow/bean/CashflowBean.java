@@ -15,20 +15,36 @@ import com.cashflow.ejb.session.CashflowStatelessBeanLocal;
 @ViewScoped
 public class CashflowBean {
 
+
 	@EJB(lookup = "java:global/cashflow-ejb/CashflowStatelessBean!com.cashflow.ejb.session.CashflowStatelessBeanLocal")
 	private CashflowStatelessBeanLocal mainPersistenceManager;
 	
+	private AccessDatabase accessDatabase;
+
+	private List<Cuenta> cuentas;
+	private String actualPage = "cuentas";
+	private Paginator paginator;
+	
 	@PostConstruct
 	public void init() {
-		System.out.println("CashflowBean.init() ::: inicializando el bean xyz!!!");
+	
+		accessDatabase = AccessDatabase.getInstance();
+		accessDatabase.setMainpersistence(mainPersistenceManager);
 		
-		List<Cuenta> cuentas = mainPersistenceManager.consultarCuentas();
-		for (Cuenta cuenta : cuentas) {
-			System.out.println("CashflowBean.init() ::: "+cuenta.getCuenNombre());
-		}
+		paginator = new Paginator(7, this);
+		paginator.setTotalRecords(accessDatabase.countRecords("Cuenta"));
+		updatetable();
+		
 	}
 	
-	private String actualPage = "list";
+	public void test(Cuenta cuenta) {
+		System.out.println("CashflowBean.test() :: "+cuenta.getCuenNombre());
+	}
+	
+	public void updatetable() {
+		setCuentas(accessDatabase.consultarCuentas(paginator));
+	}
+	
 
 	public String getActualPage() {
 		return actualPage;
@@ -36,5 +52,29 @@ public class CashflowBean {
 
 	public void setActualPage(String actualPage) {
 		this.actualPage = actualPage;
+	}
+
+
+
+	public List<Cuenta> getCuentas() {
+		return cuentas;
+	}
+
+
+
+	public void setCuentas(List<Cuenta> cuentas) {
+		this.cuentas = cuentas;
+	}
+
+
+
+	public Paginator getPaginator() {
+		return paginator;
+	}
+
+
+
+	public void setPaginator(Paginator paginator) {
+		this.paginator = paginator;
 	}
 }

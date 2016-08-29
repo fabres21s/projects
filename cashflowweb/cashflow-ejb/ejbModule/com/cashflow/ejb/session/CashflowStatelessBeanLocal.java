@@ -9,6 +9,8 @@ import com.cashflow.ejb.entity.Cuenta;
 @Local
 public interface CashflowStatelessBeanLocal {
 
-	List<Cuenta> consultarCuentas();
+	List<Cuenta> consultarCuentas(int firsRow, int maxResults);
+
+	int countRecords(String table);
 
 }

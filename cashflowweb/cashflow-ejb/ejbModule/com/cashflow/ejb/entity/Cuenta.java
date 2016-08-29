@@ -10,7 +10,7 @@ import java.util.List;
  * 
  */
 @Entity
-@NamedQuery(name="Cuenta.findAll", query="SELECT c FROM Cuenta c")
+@NamedQuery(name="Cuenta.findAll", query="SELECT c FROM Cuenta c ORDER BY c.cuenId")
 public class Cuenta implements Serializable {
 	private static final long serialVersionUID = 1L;
 
