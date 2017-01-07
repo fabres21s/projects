@@ -27,7 +27,7 @@ public class CashflowBean {
 	
 	@PostConstruct
 	public void init() {
-	
+		System.out.println("CashflowBean.init()");
 		accessDatabase = AccessDatabase.getInstance();
 		accessDatabase.setMainpersistence(mainPersistenceManager);
 		
@@ -38,7 +38,12 @@ public class CashflowBean {
 	}
 	
 	public void test(Cuenta cuenta) {
-		System.out.println("CashflowBean.test() :: "+cuenta.getCuenNombre());
+		//System.out.println("CashflowBean.test() :: "+cuenta.getCuenNombre());
+	}
+	
+	public void goTo(String page) {
+		System.out.println("CashflowBean.goTo() :: "+page);
+		actualPage = page;
 	}
 	
 	public void updatetable() {
