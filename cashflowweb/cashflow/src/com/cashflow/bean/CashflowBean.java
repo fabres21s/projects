@@ -9,6 +9,7 @@ import javax.ejb.EJB;
 import javax.faces.bean.ViewScoped;
 
 import com.cashflow.ejb.entity.Cuenta;
+import com.cashflow.ejb.entityReport.Reporte;
 import com.cashflow.ejb.session.CashflowStatelessBeanLocal;
 
 @ManagedBean
@@ -22,12 +23,14 @@ public class CashflowBean {
 	private AccessDatabase accessDatabase;
 
 	private List<Cuenta> cuentas;
+	private List<Reporte> saldos;
+	
+	
 	private String actualPage = "dashboard";
 	private Paginator paginator;
 	
 	@PostConstruct
 	public void init() {
-		System.out.println("CashflowBean.init()");
 		accessDatabase = AccessDatabase.getInstance();
 		accessDatabase.setMainpersistence(mainPersistenceManager);
 		
@@ -80,5 +83,13 @@ public class CashflowBean {
 
 	public void setPaginator(Paginator paginator) {
 		this.paginator = paginator;
+	}
+
+	public List<Reporte> getSaldos() {
+		return saldos;
+	}
+
+	public void setSaldos(List<Reporte> saldos) {
+		this.saldos = saldos;
 	}
 }

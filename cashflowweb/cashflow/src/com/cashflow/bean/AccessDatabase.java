@@ -3,6 +3,7 @@ package com.cashflow.bean;
 import java.util.List;
 
 import com.cashflow.ejb.entity.Cuenta;
+import com.cashflow.ejb.entityReport.Reporte;
 import com.cashflow.ejb.session.CashflowStatelessBeanLocal;
 
 import sun.applet.Main;
@@ -34,6 +35,17 @@ public class AccessDatabase {
 
 	public int countRecords(String table) {
 		return mainPersistenceManager.countRecords(table);
+	}
+
+
+	public List<Reporte> consultarSaldos() {
+		return mainPersistenceManager.consultarSaldos();
+	}
+
+
+	public long getSaldo(String field, String value) {
+		
+		return mainPersistenceManager.getSaldo(field, value);
 	}
 	
 }
