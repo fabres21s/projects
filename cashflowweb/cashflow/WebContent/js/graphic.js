@@ -423,7 +423,7 @@ $('#map1').vectorMap({
 
 		function getRandomData() {
 
-			if (data.length &gt; 0)
+			if (data.length > 0)
 				data = data.slice(1);
 
 			// Do a random walk

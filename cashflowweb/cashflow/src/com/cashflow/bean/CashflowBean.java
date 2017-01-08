@@ -22,7 +22,7 @@ public class CashflowBean {
 	private AccessDatabase accessDatabase;
 
 	private List<Cuenta> cuentas;
-	private String actualPage = "cuentas";
+	private String actualPage = "dashboard";
 	private Paginator paginator;
 	
 	@PostConstruct
@@ -42,7 +42,6 @@ public class CashflowBean {
 	}
 	
 	public void goTo(String page) {
-		System.out.println("CashflowBean.goTo() :: "+page);
 		actualPage = page;
 	}
 	
