@@ -4,8 +4,10 @@ import java.util.List;
 
 import com.cashflow.ejb.entity.Concepto;
 import com.cashflow.ejb.entity.Cuenta;
+import com.cashflow.ejb.entity.Detalle;
 import com.cashflow.ejb.entity.Movimiento;
 import com.cashflow.ejb.entityReport.Reporte;
+import com.cashflow.ejb.filter.DetalleFilter;
 import com.cashflow.ejb.session.CashflowStatelessBeanLocal;
 
 import sun.applet.Main;
@@ -25,11 +27,6 @@ public class AccessDatabase {
 	}
 
 		
-	public List<Cuenta> consultarCuentas(Paginator paginator) {
-		return mainPersistenceManager.consultarCuentas(paginator.getFirstRow(), paginator.getSizePage());
-	}
-
-
 	public void setMainpersistence(CashflowStatelessBeanLocal mainPersistenceManager2) {
 		this.mainPersistenceManager = mainPersistenceManager2;
 	}
@@ -63,6 +60,11 @@ public class AccessDatabase {
 
 	public void persist(Object object) {
 		mainPersistenceManager.persist(object);
+	}
+
+
+	public List<Detalle> consultarDetalles(DetalleFilter detalleFilter) {
+		return mainPersistenceManager.consultarDetalles(detalleFilter);
 	}
 	
 }

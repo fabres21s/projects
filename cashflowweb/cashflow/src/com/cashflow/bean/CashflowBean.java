@@ -10,11 +10,13 @@ import javax.faces.bean.ViewScoped;
 
 import com.cashflow.ejb.entity.Cuenta;
 import com.cashflow.ejb.entityReport.Reporte;
+import com.cashflow.ejb.paginator.Paginator;
+import com.cashflow.ejb.paginator.PaginatorInterface;
 import com.cashflow.ejb.session.CashflowStatelessBeanLocal;
 
 @ManagedBean
 @ViewScoped
-public class CashflowBean {
+public class CashflowBean implements PaginatorInterface{
 
 
 	@EJB(lookup = "java:global/cashflow-ejb/CashflowStatelessBean!com.cashflow.ejb.session.CashflowStatelessBeanLocal")
@@ -34,7 +36,7 @@ public class CashflowBean {
 		accessDatabase = AccessDatabase.getInstance();
 		accessDatabase.setMainpersistence(mainPersistenceManager);
 		
-		paginator = new Paginator(7, this);
+		paginator = new Paginator(7,"id",true, this);
 		paginator.setTotalRecords(accessDatabase.countRecords("Cuenta"));
 		updatetable();
 		
@@ -49,7 +51,7 @@ public class CashflowBean {
 	}
 	
 	public void updatetable() {
-		setCuentas(accessDatabase.consultarCuentas(paginator));
+		//setCuentas(accessDatabase.consultarCuentas(paginator));
 	}
 	
 

@@ -4,12 +4,10 @@ import javax.faces.bean.ManagedBean;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.servlet.http.HttpServletRequest;
@@ -18,14 +16,18 @@ import com.cashflow.ejb.entity.Concepto;
 import com.cashflow.ejb.entity.Detalle;
 import com.cashflow.ejb.entity.Movimiento;
 import com.cashflow.ejb.entityReport.Reporte;
+import com.cashflow.ejb.filter.DetalleFilter;
+import com.cashflow.ejb.paginator.Paginator;
+import com.cashflow.ejb.paginator.PaginatorInterface;
 
 @ManagedBean
 @ViewScoped
-public class MovimientosBean {
+public class MovimientosBean implements PaginatorInterface{
 
 
 
 	private List<Reporte> saldos;
+	private List<Detalle> detalles;
 	
 	private List<SelectItem> conceptosItems = new ArrayList<SelectItem>();
 	
@@ -36,8 +38,11 @@ public class MovimientosBean {
 	private Movimiento movimiento;
 	private String moviValor;
 	
+	private Paginator paginator;
+	
 	@PostConstruct
 	public void init() {
+		paginator = new Paginator(10, "d.movimiento.moviFecha", false, this);
 		reset();
 	}
 	
@@ -80,6 +85,7 @@ public class MovimientosBean {
 		gastos 		= AccessDatabase.getInstance().getSaldo("concEsgasto", "detaCredito") ;
 		movimiento = new Movimiento();
 		cargarConceptos();
+		paginator.setTotalRecords(AccessDatabase.getInstance().countRecords("Detalle"));
 	}
 
 
@@ -196,5 +202,32 @@ public class MovimientosBean {
 
 	public void setMoviValor(String moviValor) {
 		this.moviValor = moviValor;
+	}
+
+	@Override
+	public void updatetable() {
+		
+		
+		detalles = AccessDatabase.getInstance().consultarDetalles(new DetalleFilter(paginator));
+	}
+
+
+	public Paginator getPaginator() {
+		return paginator;
+	}
+
+
+	public void setPaginator(Paginator paginator) {
+		this.paginator = paginator;
+	}
+
+
+	public List<Detalle> getDetalles() {
+		return detalles;
+	}
+
+
+	public void setDetalles(List<Detalle> detalles) {
+		this.detalles = detalles;
 	}
 }

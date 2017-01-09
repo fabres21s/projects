@@ -2,3 +2,25 @@
 td.right {
     text-align: right;
 }
+
+
+td.right10 {
+    text-align: right;
+    width: 10%;
+}
+
+td.width15 {
+    width: 15%;
+}
+
+td.width20 {
+    width: 10%;
+}
+
+td.width30 {
+    width: 10%;
+}
+
+td.width40 {
+    width: 10%;
+}

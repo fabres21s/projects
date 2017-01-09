@@ -10,7 +10,9 @@ import javax.persistence.Query;
 
 import com.cashflow.ejb.entity.Concepto;
 import com.cashflow.ejb.entity.Cuenta;
+import com.cashflow.ejb.entity.Detalle;
 import com.cashflow.ejb.entityReport.Reporte;
+import com.cashflow.ejb.filter.DetalleFilter;
 
 /**
  * Session Bean implementation class CashflowStatelessBean
@@ -109,6 +111,28 @@ public class CashflowStatelessBean implements CashflowStatelessBeanLocal {
 	@Override
 	public void persist(Object object) {
 		em.persist(object);
+	}
+
+	@Override
+	public List<Detalle> consultarDetalles(DetalleFilter detalleFilter) {
+		
+		String sql = "Select d FROM Detalle d "
+				+ "ORDER BY "+detalleFilter.getSortField() + " "+detalleFilter.getOrderBy() +", d.detaId";
+		query = em.createQuery("Select d FROM Detalle d "
+				+ "ORDER BY "+detalleFilter.getSortField() + " "+detalleFilter.getOrderBy() +", d.detaId DESC");
+		
+		query.setFirstResult(detalleFilter.getFirstRow());
+		query.setMaxResults(detalleFilter.getSizePage());
+		
+		/*
+		 * String sql = "SELECT COUNT(p) FROM Plantilla p WHERE p.activo = :activo "
+				+ "AND p.idcliente "+(userSelected > -1 ? " = " : " > ")+" :idcliente "
+				+ "AND (LOWER(p.nombre) LIKE LOWER(:filter) "
+				+ "OR str(p.id) like :filter "
+				+ "OR str(p.lastupdate) like :filter) ";
+		 */
+		
+		return query.getResultList();
 	}
 
 }

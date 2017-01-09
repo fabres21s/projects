@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<meta charset="UTF-8" />
+	<title>Cuentas</title>
+</h:head>
+
+<h:body>
+
+	<div class="vd_content-section clearfix">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="panel widget">
+					<div class="panel-heading vd_bg-grey">
+						<h3 class="panel-title">
+							<span class="menu-icon"> <i class="fa fa-dot-circle-o"></i>
+							</span>Listado de Movimientos
+						</h3>
+					</div>
+
+					<div class="panel-body table-responsive">
+
+						<h:panelGroup id="listMovimientos">
+						
+							<div style="height: 400px; overflow: auto;">
+							<h:dataTable class="table table-hover" var="d"
+								value="#{movimientosBean.detalles}" columnClasses="width15,none,none,none,right,right10">
+								<h:column >
+									<f:facet name="header" >
+										<h:outputText value="Fecha" />
+									</f:facet>
+									<h:outputText value="#{d.movimiento.moviFecha}" />
+								</h:column>
+
+								<h:column>
+									<f:facet name="header">
+										<h:outputText value="Cuenta" />
+									</f:facet>
+									<h:outputText value="#{d.cuenta.cuenNombre}" />
+								</h:column>
+
+								<h:column>
+									<f:facet name="header">
+										<h:outputText value="Concepto" />
+									</f:facet>
+									<h:outputText value="#{d.movimiento.concepto.concNombre}" />
+								</h:column>
+
+								<h:column>
+									<f:facet name="header">
+										<h:outputText value="Movimiento" />
+									</f:facet>
+									<h:outputText value="#{d.movimiento.moviDescripcion}" />
+								</h:column>
+
+								<h:column>
+									<f:facet name="header">
+										<h:outputText value="Debito" />
+									</f:facet>
+									<h:outputText value="#{d.detaDebito}" >
+										<f:convertNumber pattern="$#,##0"></f:convertNumber>
+									</h:outputText>
+								</h:column>
+
+								<h:column>
+									<f:facet name="header">
+										<h:outputText value="Crédito" />
+									</f:facet>
+									<h:outputText value="#{d.detaCredito}" >
+										<f:convertNumber pattern="$#,##0"></f:convertNumber>
+									</h:outputText>
+								</h:column>
+
+
+							</h:dataTable>
+							</div>
+
+
+							<ul class="pagination">
+								<li class="prev"><h:commandLink value="First"
+										action="#{movimientosBean.paginator.pageFirst}"
+										disabled="#{movimientosBean.paginator.firstRow == 0}">
+										<f:ajax render="listMovimientos"></f:ajax>
+									</h:commandLink></li>
+							</ul>
+
+							<ul class="pagination">
+								<li class="prev"><h:commandLink value="← Previous"
+										action="#{movimientosBean.paginator.pagePrevious}"
+										disabled="#{movimientosBean.paginator.firstRow == 0}">
+										<f:ajax render="listMovimientos"></f:ajax>
+									</h:commandLink></li>
+							</ul>
+
+							<ui:repeat value="#{movimientosBean.paginator.records}"
+								var="page">
+								<ul class="pagination">
+									<li
+										class="#{(page == movimientosBean.paginator.currentPage) ? 'active' : ''}">
+										<h:commandLink value="#{page}"
+											disabled="#{page == movimientosBean.paginator.currentPage}"
+											action="#{movimientosBean.paginator.page(page)}">
+											<f:ajax render="form1:listMovimientos"></f:ajax>
+										</h:commandLink>
+									</li>
+								</ul>
+							</ui:repeat>
+
+							<ul class="pagination">
+								<li class="next"><h:commandLink value="Next →"
+										action="#{movimientosBean.paginator.pageNext}"
+										disabled="#{movimientosBean.paginator.firstRow + movimientosBean.paginator.sizePage >= movimientosBean.paginator.totalRecords}">
+										<f:ajax render="listMovimientos"></f:ajax>
+									</h:commandLink></li>
+							</ul>
+
+							<ul class="pagination">
+								<li class="next"><h:commandLink value="Last"
+										action="#{movimientosBean.paginator.pageLast}"
+										disabled="#{movimientosBean.paginator.firstRow + movimientosBean.paginator.sizePage >= movimientosBean.paginator.totalRecords}">
+										<f:ajax render="listMovimientos"></f:ajax>
+									</h:commandLink></li>
+							</ul>
+
+						</h:panelGroup>
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+</h:body>
+</html>
