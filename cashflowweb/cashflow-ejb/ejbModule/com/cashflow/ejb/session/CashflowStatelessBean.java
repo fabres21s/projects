@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import com.cashflow.ejb.entity.Concepto;
 import com.cashflow.ejb.entity.Cuenta;
 import com.cashflow.ejb.entityReport.Reporte;
 
@@ -89,6 +90,15 @@ public class CashflowStatelessBean implements CashflowStatelessBeanLocal {
         	exc.printStackTrace();
         }
 		return saldo;
+	}
+
+	@Override
+	public List<Concepto> consultarConceptosActivos() {
+		query = em.createQuery("SELECT c FROM Concepto c "
+				+ "WHERE c.concEstado = :estado "
+				+ "ORDER BY c.concNombre ");
+        query.setParameter("estado", true);
+         return query.getResultList();
 	}
 
 }

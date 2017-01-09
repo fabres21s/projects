@@ -2,6 +2,7 @@ package com.cashflow.bean;
 
 import java.util.List;
 
+import com.cashflow.ejb.entity.Concepto;
 import com.cashflow.ejb.entity.Cuenta;
 import com.cashflow.ejb.entityReport.Reporte;
 import com.cashflow.ejb.session.CashflowStatelessBeanLocal;
@@ -46,6 +47,11 @@ public class AccessDatabase {
 	public long getSaldo(String field, String value) {
 		
 		return mainPersistenceManager.getSaldo(field, value);
+	}
+
+
+	public List<Concepto> consultarConceptosActivos() {
+		return mainPersistenceManager.consultarConceptosActivos();
 	}
 	
 }
