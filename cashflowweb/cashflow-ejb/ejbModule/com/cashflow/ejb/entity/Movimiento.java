@@ -16,8 +16,7 @@ public class Movimiento implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="MOVIMIENTO_MOVIID_GENERATOR" )
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="MOVIMIENTO_MOVIID_GENERATOR")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="movi_id")
 	private Integer moviId;
 
@@ -29,7 +28,7 @@ public class Movimiento implements Serializable {
 	private Date moviFecha;
 
 	//bi-directional many-to-one association to Detalle
-	@OneToMany(mappedBy="movimiento")
+	@OneToMany(mappedBy="movimiento", cascade =CascadeType.PERSIST)
 	private List<Detalle> detalles;
 
 	//bi-directional many-to-one association to Concepto

@@ -101,4 +101,14 @@ public class CashflowStatelessBean implements CashflowStatelessBeanLocal {
          return query.getResultList();
 	}
 
+	@Override
+	public Object findRecord(Object table, Integer id) {
+		return em.find(table.getClass(), id);
+	}
+
+	@Override
+	public void persist(Object object) {
+		em.persist(object);
+	}
+
 }

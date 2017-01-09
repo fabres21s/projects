@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.cashflow.ejb.entity.Concepto;
 import com.cashflow.ejb.entity.Cuenta;
+import com.cashflow.ejb.entity.Movimiento;
 import com.cashflow.ejb.entityReport.Reporte;
 import com.cashflow.ejb.session.CashflowStatelessBeanLocal;
 
@@ -52,6 +53,16 @@ public class AccessDatabase {
 
 	public List<Concepto> consultarConceptosActivos() {
 		return mainPersistenceManager.consultarConceptosActivos();
+	}
+
+
+	public Object findRecord(Object table, Integer id) {
+		return mainPersistenceManager.findRecord(table, id);
+	}
+
+
+	public void persist(Object object) {
+		mainPersistenceManager.persist(object);
 	}
 	
 }

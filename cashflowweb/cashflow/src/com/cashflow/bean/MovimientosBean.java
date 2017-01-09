@@ -2,7 +2,9 @@ package com.cashflow.bean;
 
 import javax.faces.bean.ManagedBean;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -13,6 +15,7 @@ import javax.faces.model.SelectItem;
 import javax.servlet.http.HttpServletRequest;
 
 import com.cashflow.ejb.entity.Concepto;
+import com.cashflow.ejb.entity.Detalle;
 import com.cashflow.ejb.entity.Movimiento;
 import com.cashflow.ejb.entityReport.Reporte;
 
@@ -35,20 +38,48 @@ public class MovimientosBean {
 	
 	@PostConstruct
 	public void init() {
-		saldos 		= AccessDatabase.getInstance().consultarSaldos();
-		ingresos	= AccessDatabase.getInstance().getSaldo("concEsingreso", "detaDebito");
-		gastos 		= AccessDatabase.getInstance().getSaldo("concEsgasto", "detaCredito");
-		movimiento = new Movimiento();
-		cargarConceptos();
+		reset();
 	}
 	
 	
 	public void guardarMovimiento() {
 		HttpServletRequest request = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
 	    String fecha = request.getParameter("fechaMov");
-		
-		
-		System.out.println(fecha + " "+conceptoSelected);
+		String valor = request.getParameter("valorMov");
+	    
+	    Concepto concepto = (Concepto)AccessDatabase.getInstance().findRecord(new Concepto(), conceptoSelected);
+        movimiento.setConcepto(concepto);
+        movimiento.setMoviFecha(Utils.getInstance().getDate(fecha));
+        
+      
+        List<Detalle> detalles = new ArrayList<Detalle>();
+        Detalle detalle_debito = new Detalle();
+        
+        detalle_debito.setCuenta(concepto.getCuentaDebito());
+        detalle_debito.setDetaDebito(BigDecimal.valueOf(Double.valueOf(valor)));
+        detalle_debito.setDetaCredito(BigDecimal.ZERO);
+        detalle_debito.setMovimiento(movimiento);
+        detalles.add(detalle_debito);
+        
+        Detalle detalle_credito = new Detalle();
+        detalle_credito.setCuenta(concepto.getCuentaCredito());
+        detalle_credito.setDetaCredito(BigDecimal.valueOf(Double.valueOf(valor)));
+        detalle_credito.setDetaDebito(BigDecimal.ZERO);
+        detalle_credito.setMovimiento(movimiento);
+        detalles.add(detalle_credito);
+        
+        movimiento.setDetalles(detalles);
+        AccessDatabase.getInstance().persist(movimiento);
+		reset();
+	}
+
+
+	private void reset() {
+		saldos 		= AccessDatabase.getInstance().consultarSaldos();
+		ingresos	= AccessDatabase.getInstance().getSaldo("concEsingreso", "detaDebito") ;
+		gastos 		= AccessDatabase.getInstance().getSaldo("concEsgasto", "detaCredito") ;
+		movimiento = new Movimiento();
+		cargarConceptos();
 	}
 
 

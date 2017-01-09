@@ -15,8 +15,7 @@ public class Detalle implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="DETALLE_DETAID_GENERATOR" )
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="DETALLE_DETAID_GENERATOR")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="deta_id")
 	private Integer detaId;
 

@@ -101,7 +101,6 @@
 		<div class="row">
 			<div class="col-md-7 mgbt-md-20 mgbt-lg-0">
 
-
 				<div>
 					<div class="panel-body-list">
 
@@ -117,7 +116,7 @@
 									<div class="panel-body-list  table-responsive">
 
 										<div >
-											<h:dataTable class="table" var="saldo"
+											<h:dataTable class="table" var="saldo" id="listSaldos"
 												value="#{movimientosBean.saldos}" columnClasses="none,right">
 												<h:column>
 													<f:facet name="header">
@@ -149,11 +148,11 @@
 					</div>
 				</div>
 
-
 				<!-- Panel Widget -->
 			</div>
 			<!--col-md-7 -->
 			<div class="col-md-5">
+			
 				<div class="row">
 					<div class="col-md-12">
 						<div class="vd_status-widget vd_bg-green widget">
@@ -164,7 +163,7 @@
 								<div class="clearfix">
 									<span class="menu-icon"> <i class="icon-network"></i>
 									</span> <span class="menu-value"> 
-										<h:outputLabel value="#{movimientosBean.ingresos}">
+										<h:outputLabel value="#{movimientosBean.ingresos}" id="txtIngresos">
 											<f:convertNumber pattern="$#,##0"></f:convertNumber>
 										</h:outputLabel> </span>
 								</div>
@@ -185,7 +184,7 @@
 								<div class="clearfix">
 									<span class="menu-icon"> <i class="icon-bars"></i>
 									</span> <span class="menu-value">
-										<h:outputLabel value="#{movimientosBean.gastos}">
+										<h:outputLabel value="#{movimientosBean.gastos}" id="txtGastos">
 											<f:convertNumber pattern="$#,##0"></f:convertNumber>
 										</h:outputLabel> 
 									</span>
@@ -212,7 +211,7 @@
 								<div class="clearfix">
 									<span class="menu-icon"> <i class="fa fa-comments"></i>
 									</span> <span class="menu-value">
-										<h:outputLabel value="#{movimientosBean.ingresos - movimientosBean.gastos}">
+										<h:outputLabel value="#{movimientosBean.ingresos - movimientosBean.gastos}" id="txtSaldo">
 											<f:convertNumber pattern="$#,##0"></f:convertNumber>
 										</h:outputLabel> 
 									</span>
@@ -224,10 +223,10 @@
 										
 				</div>
 				<!-- .row -->
-
 			</div>
 			<!-- .col-md-5 -->
 		</div>
+		
 		<div class="row">
 			<div class="col-md-12">
 

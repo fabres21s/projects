@@ -27,12 +27,12 @@ public class Cuenta implements Serializable {
 	private String cuenNombre;
 
 	//bi-directional many-to-one association to Concepto
-	@OneToMany(mappedBy="cuenta1")
-	private List<Concepto> conceptos1;
+	@OneToMany(mappedBy="cuentaCredito")
+	private List<Concepto> conceptosCredito;
 
 	//bi-directional many-to-one association to Concepto
-	@OneToMany(mappedBy="cuenta2")
-	private List<Concepto> conceptos2;
+	@OneToMany(mappedBy="cuentaDebito")
+	private List<Concepto> conceptosDebito;
 
 	//bi-directional many-to-one association to Detalle
 	@OneToMany(mappedBy="cuenta")
@@ -65,48 +65,21 @@ public class Cuenta implements Serializable {
 		this.cuenNombre = cuenNombre;
 	}
 
-	public List<Concepto> getConceptos1() {
-		return this.conceptos1;
+	public List<Concepto> getConceptosCredito() {
+		return this.conceptosCredito;
 	}
 
-	public void setConceptos1(List<Concepto> conceptos1) {
-		this.conceptos1 = conceptos1;
+	public void setConceptosCredito(List<Concepto> conceptosCredito) {
+		this.conceptosCredito = conceptosCredito;
 	}
 
-	public Concepto addConceptos1(Concepto conceptos1) {
-		getConceptos1().add(conceptos1);
-		conceptos1.setCuenta1(this);
 
-		return conceptos1;
+	public List<Concepto> getConceptosDebito() {
+		return this.conceptosDebito;
 	}
 
-	public Concepto removeConceptos1(Concepto conceptos1) {
-		getConceptos1().remove(conceptos1);
-		conceptos1.setCuenta1(null);
-
-		return conceptos1;
-	}
-
-	public List<Concepto> getConceptos2() {
-		return this.conceptos2;
-	}
-
-	public void setConceptos2(List<Concepto> conceptos2) {
-		this.conceptos2 = conceptos2;
-	}
-
-	public Concepto addConceptos2(Concepto conceptos2) {
-		getConceptos2().add(conceptos2);
-		conceptos2.setCuenta2(this);
-
-		return conceptos2;
-	}
-
-	public Concepto removeConceptos2(Concepto conceptos2) {
-		getConceptos2().remove(conceptos2);
-		conceptos2.setCuenta2(null);
-
-		return conceptos2;
+	public void setConceptos2(List<Concepto> conceptosDebito) {
+		this.conceptosDebito = conceptosDebito;
 	}
 
 	public List<Detalle> getDetalles() {

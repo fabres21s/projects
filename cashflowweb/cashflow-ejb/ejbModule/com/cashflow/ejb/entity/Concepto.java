@@ -35,12 +35,12 @@ public class Concepto implements Serializable {
 	//bi-directional many-to-one association to Cuenta
 	@ManyToOne
 	@JoinColumn(name="cuen_credito")
-	private Cuenta cuenta1;
+	private Cuenta cuentaCredito;
 
 	//bi-directional many-to-one association to Cuenta
 	@ManyToOne
 	@JoinColumn(name="cuen_debito")
-	private Cuenta cuenta2;
+	private Cuenta cuentaDebito;
 
 	//bi-directional many-to-one association to Movimiento
 	@OneToMany(mappedBy="concepto")
@@ -89,20 +89,20 @@ public class Concepto implements Serializable {
 		this.concNombre = concNombre;
 	}
 
-	public Cuenta getCuenta1() {
-		return this.cuenta1;
+	public Cuenta getCuentaCredito() {
+		return this.cuentaCredito;
 	}
 
-	public void setCuenta1(Cuenta cuenta1) {
-		this.cuenta1 = cuenta1;
+	public void setCuentaCredito(Cuenta cuentaCredito) {
+		this.cuentaCredito = cuentaCredito;
 	}
 
-	public Cuenta getCuenta2() {
-		return this.cuenta2;
+	public Cuenta getCuentaDebito() {
+		return this.cuentaDebito;
 	}
 
-	public void setCuenta2(Cuenta cuenta2) {
-		this.cuenta2 = cuenta2;
+	public void setCuentaDebito(Cuenta cuentaDebito) {
+		this.cuentaDebito = cuentaDebito;
 	}
 
 	public List<Movimiento> getMovimientos() {

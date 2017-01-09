@@ -143,7 +143,7 @@
 								<div class="col-sm-5 controls">
 									<div class="input-group">
 										<input type="text" placeholder="Fecha del movimiento"
-											name="fechaMov" id="datepicker-icon" /> <span
+											name="fechaMov" id="datepicker-icon" readonly="true"/> <span
 											class="input-group-addon" id="datepicker-icon-trigger"
 											data-datepicker="#datepicker-icon"><i
 											class="fa fa-calendar"></i></span>
@@ -172,7 +172,7 @@
 									<div class="input-group">
 										<span
 											class="input-group-addon  vd_bg-blue vd_white vd_bdt-blue">$</span>
-										<input type="text" placeholder="Valor del movimiento" />
+										<input type="text" placeholder="Valor del movimiento" name="valorMov" />
 									</div>
 								</div>
 							</div>
@@ -189,11 +189,16 @@
 								<div class="col-sm-4"></div>
 								<div class="col-sm-7">
 									
+									
+									<!--  
 									<button type="button" class="btn vd_btn vd_bg-green vd_white"
 										data-toggle="modal" data-target="#myModal">
 										<i class="icon-ok"></i> Guardar
 									</button>
-									
+									-->
+									<h:commandButton action="#{movimientosBean.guardarMovimiento}" value="Guardar">
+											<f:ajax render="listSaldos txtIngresos txtGastos txtSaldo" execute="formMovimientos"></f:ajax>
+									</h:commandButton>
 									
 									<button class="btn vd_btn" type="button">Cancelar</button>
 

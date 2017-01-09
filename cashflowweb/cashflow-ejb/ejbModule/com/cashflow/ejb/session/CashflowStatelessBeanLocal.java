@@ -21,4 +21,8 @@ public interface CashflowStatelessBeanLocal {
 
 	List<Concepto> consultarConceptosActivos();
 
+	Object findRecord(Object table, Integer id);
+
+	void persist(Object object);
+
 }
