@@ -26,15 +26,17 @@ public class CashflowBean implements PaginatorInterface{
 
 	private List<Cuenta> cuentas;
 	private List<Reporte> saldos;
+	private Places places;
 	
-	
-	private String actualPage = "dashboard";
+	private String actualPage = "dashboard.xhtml";
 	private Paginator paginator;
 	
 	@PostConstruct
 	public void init() {
 		accessDatabase = AccessDatabase.getInstance();
 		accessDatabase.setMainpersistence(mainPersistenceManager);
+		
+		places = Places.getInstance();
 		
 		paginator = new Paginator(7,"id",true, this);
 		paginator.setTotalRecords(accessDatabase.countRecords("Cuenta"));
@@ -47,7 +49,7 @@ public class CashflowBean implements PaginatorInterface{
 	}
 	
 	public void goTo(String page) {
-		actualPage = page;
+		actualPage = Places.getInstance().get(page);
 	}
 	
 	public void updatetable() {
@@ -93,5 +95,13 @@ public class CashflowBean implements PaginatorInterface{
 
 	public void setSaldos(List<Reporte> saldos) {
 		this.saldos = saldos;
+	}
+
+	public Places getPlaces() {
+		return places;
+	}
+
+	public void setPlaces(Places places) {
+		this.places = places;
 	}
 }

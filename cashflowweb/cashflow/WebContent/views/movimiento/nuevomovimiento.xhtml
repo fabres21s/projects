@@ -14,7 +14,6 @@
 	class="full-layout  nav-right-hide nav-right-start-hide  nav-top-fixed      responsive    clearfix"
 	data-active="forms " data-smooth-scrolling="1">
 
-	<!-- vd_title-section -->
 
 	<div class="vd_content-section clearfix">
 		<div class="row" id="form-basic">
@@ -81,74 +80,19 @@
 								<div class="col-sm-7">
 									
 									
-									<!--  
+									 
 									<button type="button" class="btn vd_btn vd_bg-green vd_white"
 										data-toggle="modal" data-target="#myModal">
 										<i class="icon-ok"></i> Guardar
 									</button>
-									-->
-									<h:commandButton action="#{movimientosBean.guardarMovimiento}" value="Guardar">
+									
+									<h:commandButton action="#{movimientosBean.guardarMovimiento}" value="GuardarC" styleClass="btn vd_btn vd_bg-green vd_white">
 											<f:ajax render="listSaldos txtIngresos txtGastos txtSaldo listMovimientos" execute="formMovimientos"></f:ajax>
 									</h:commandButton>
 									
 									<button class="btn vd_btn" type="button">Cancelar</button>
 
-
-
-
-									<!-- Modal -->
-									<div class="modal fade" id="myModal" tabindex="-1"
-										role="dialog" aria-labelledby="myModalLabel"
-										aria-hidden="true">
-										<div class="modal-dialog">
-											<div class="modal-content">
-												<div class="modal-header vd_bg-blue vd_white">
-													<button type="button" class="close" data-dismiss="modal"
-														aria-hidden="true">
-														<i class="fa fa-times"></i>
-													</button>
-													<h4 class="modal-title" id="myModalLabel">Modal title</h4>
-												</div>
-												<div class="modal-body">
-													<form class="form-horizontal">
-														<div class="form-group">
-															<label class="col-sm-4 control-label">First Name</label>
-															<div class="col-sm-7 controls">
-																<input class="input-border-btm" type="text" />
-															</div>
-
-														</div>
-														<div class="form-group">
-															<label class="col-sm-4 control-label">User Name</label>
-															<div class="col-sm-7 controls">
-																<input class="input-border-btm" type="text" />
-															</div>
-
-														</div>
-														<div class="form-group">
-															<label class="col-sm-4 control-label">Password</label>
-															<div class="col-sm-7 controls">
-																<input class="input-border-btm" type="password" />
-															</div>
-
-														</div>
-
-
-													</form>
-
-												</div>
-												<div class="modal-footer background-login">
-													<button type="button" class="btn vd_btn vd_bg-grey"
-														data-dismiss="modal">Close</button>
-													<button type="button" class="btn vd_btn vd_bg-green">Save
-														changes</button>
-												</div>
-											</div>
-											<!-- /.modal-content -->
-										</div>
-										<!-- /.modal-dialog -->
-									</div>
-									<!-- /.modal -->
+									<ui:include src="/widgets/popups/modal.xhtml"></ui:include>
 
 								</div>
 							</div>
