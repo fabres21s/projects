@@ -28,7 +28,7 @@ public class CashflowBean implements PaginatorInterface{
 	private List<Reporte> saldos;
 	private Places places;
 	
-	private String actualPage = "dashboard.xhtml";
+	private String actualPage = "dashBoard.xhtml";
 	private Paginator paginator;
 	
 	@PostConstruct

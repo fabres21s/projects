@@ -221,41 +221,12 @@
 								Features</h3>
 							<div class="vd_menu">
 								<ul>
-									<li><a href="javascript:void(0);"
-										data-action="click-trigger"> <span class="menu-icon"><i
-												class="fa fa-dashboard"></i></span> <span class="menu-text">Dashboard</span>
-											<span class="menu-badge"><span
-												class="badge vd_bg-black-30"><i
-													class="fa fa-angle-down"></i></span></span>
-									</a>
-										<div class="child-menu" data-action="click-target">
-											<ul>
-												<li><a href="index.html"> <span class="menu-text">Default
-															Dashboard</span>
-												</a></li>
-												<li><a href="index-ecommerce.html"> <span
-														class="menu-text">E-Commerce Dashboard</span>
-												</a></li>
-												<li><a href="index-analytics.html"> <span
-														class="menu-text">Analytics Dashboard</span>
-												</a></li>
-												<li><a href="index-blogging.html"> <span
-														class="menu-text">Blogging Dashboard</span>
-												</a></li>
-												<li><a href="index-event-management.html"> <span
-														class="menu-text">Event Management Dashboard</span> <span
-														class="menu-badge"><span class="badge vd_bg-yellow">NEW</span></span>
-												</a></li>
-											</ul>
-										</div></li>
-									<li><a href="email.html"> <span class="menu-icon"><i
-												class="fa fa-envelope"></i></span> <span class="menu-text">Email</span>
-											<span class="menu-badge"><span class="badge vd_bg-red">78</span></span>
-									</a></li>
+								
+								
 
 									<li><h:commandLink
 											action="#{cashflowBean.goTo('dashboard')}">
-											<span class="menu-icon"><i class="fa fa-envelope"></i></span>
+											<span class="menu-icon"><i class="fa fa-dashboard"></i></span>
 											<span class="menu-text">Dashboard</span>
 											<span class="menu-badge"><span class="badge vd_bg-red"></span></span>
 
@@ -269,7 +240,18 @@
 											<span class="menu-badge"><span class="badge vd_bg-red"></span></span>
 
 											<f:ajax execute="@this" render="workspace"></f:ajax>
-										</h:commandLink></li>
+										</h:commandLink>
+									</li>
+									
+									<li>
+										<h:commandLink action="#{cashflowBean.goTo('reportes')}">
+											<span class="menu-icon"><i class="fa fa-signal"></i></span>
+											<span class="menu-text">Reportes</span>
+											<span class="menu-badge"><span class="badge vd_bg-red"></span></span>
+
+											<f:ajax execute="@this" render="workspace"></f:ajax>
+										</h:commandLink>
+									</li>
 
 									<li><a href="javascript:void(0);"
 										data-action="click-trigger"> <span class="menu-icon"><i

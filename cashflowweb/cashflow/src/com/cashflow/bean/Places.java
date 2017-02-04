@@ -29,7 +29,8 @@ public class Places {
 		mapPlaces.put("nuevomovimiento", "/views/movimiento/nuevomovimiento.xhtml");
 		mapPlaces.put("movimientosList", "/views/movimiento/movimientosList.xhtml");
 		mapPlaces.put("modal", "/widgets/popups/modal.xhtml");
-		
+		mapPlaces.put("dashboard", "dashBoard.xhtml");
+		mapPlaces.put("reportes", "/reports/reporte.xhtml");
 	}
 
 	public Map<String, String> getMapPlaces() {

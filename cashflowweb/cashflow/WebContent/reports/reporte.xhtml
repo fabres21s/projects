@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<!-- Vista a la que llegaremos cuando en el menú se presione la opción "Movimientos" -->
+<!-- Contiene los Saldos consolidados de Cuenta,
+	los totales de Ingresos, Gastos y Saldo,
+	el formulario para un nuevo movimiento
+	y el listado de movimientos -->
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+
+
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Highcharts Example</title>
+
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<style type="text/css">
+${
+demo
+.css
+}
+</style>
+
+
+	<script type="text/javascript" src="js/highchart/custom.js">
+ 
+
+
+		</script>
+
+</h:head>
+
+<h:body>
+
+	<div class="vd_content-section clearfix">
+
+		<div class="row">
+			<div class="col-md-12 mgbt-md-20 mgbt-lg-0">
+				<div class="panel vd_interactive-widget light-widget widget">
+					<div class="panel-body-list">
+
+						<div class="pd-20">
+							<h5 class="mgbt-xs-20 mgtp-20">
+								<span class="menu-icon append-icon"><i class="icon-graph"></i></span>
+								<strong>Revenue Vs Cost Graph</strong> (November)
+							</h5>
+							<div id="container"
+								style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+						</div>
+
+					</div>
+				</div>
+				<!-- Panel Widget -->
+			</div>
+			<!--col-md-7 -->
+		</div>
+
+
+		<!-- Segunda Fila -->
+		<div class="row">
+			<div class="col-md-12">
+				<ui:include src="/views/movimiento/nuevomovimiento.xhtml"></ui:include>
+			</div>
+		</div>
+		<!-- Fin segunda fila -->
+
+		<!-- Tercera fila -->
+		<div class="row">
+			<div class="col-md-12">
+				<!-- listado de movimientos -->
+				<ui:include src="/views/movimiento/movimientosList.xhtml"></ui:include>
+			</div>
+		</div>
+
+
+	</div>
+
+
+
+	<script src="js/highchart/highcharts.js"></script>
+	<script src="js/highchart/exporting.js"></script>
+
+</h:body>
+</html>
