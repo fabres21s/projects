@@ -7,6 +7,7 @@ import javax.ejb.Local;
 import com.cashflow.ejb.entity.Concepto;
 import com.cashflow.ejb.entity.Cuenta;
 import com.cashflow.ejb.entity.Detalle;
+import com.cashflow.ejb.entityReport.ReportData;
 import com.cashflow.ejb.entityReport.Reporte;
 import com.cashflow.ejb.filter.DetalleFilter;
 
@@ -28,5 +29,7 @@ public interface CashflowStatelessBeanLocal {
 	void persist(Object object);
 
 	List<Detalle> consultarDetalles(DetalleFilter detalleFilter);
+
+	List<Object[]> consultarReporteGeneralCuentasMes(int i);
 
 }

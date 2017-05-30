@@ -1,4 +1,5 @@
 $(function () {
+	
     Highcharts.chart('container', {
         title: {
             text: 'Combination chart'
