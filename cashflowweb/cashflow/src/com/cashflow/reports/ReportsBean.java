@@ -1,7 +1,6 @@
 package com.cashflow.reports;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -9,7 +8,6 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
-import com.cashflow.ejb.entityReport.ReportData;
 import com.cashflow.ejb.session.CashflowStatelessBeanLocal;
 import com.google.gson.Gson;
 
@@ -35,7 +33,7 @@ public class ReportsBean implements java.io.Serializable {
 	}
 
 	private void consultarReporteGeneral() {
-		List<Object[]> reportDataList = mainPersistenceManager.consultarReporteGeneralCuentasMes(29);
+		List<Object[]> reportDataList = mainPersistenceManager.consultarReporteGeneralCuentasMes(50);
 		
 		
 		 List<String> xValues = new ArrayList<String>();
@@ -91,52 +89,6 @@ public class ReportsBean implements java.io.Serializable {
 
 	        this.xValues = xValues.toString();
 	        data = new Gson().toJson(dataList);
-	}
-	
-
-	private String convert(String valueOf) {
-		String args [] = valueOf.split("/");
-		String result = "";
-		switch (Integer.valueOf(args[1])) {
-		case 1:
-			result = "JAN";
-			break;
-		case 2:
-			result = "FEB";
-			break;
-		case 3:
-			result = "MAR";
-			break;
-		case 4:
-			result = "APR";
-			break;
-		case 5:
-			result = "MAY";
-			break;
-		case 6:
-			result = "JUN";
-			break;
-		case 7:
-			result = "JUL";
-			break;
-		case 8:
-			result = "AUG";
-			break;
-		case 9:
-			result = "SEP";
-			break;
-		case 10:
-			result = "OCT";
-			break;
-		case 11:
-			result = "NOV";
-			break;
-		case 12:
-			result = "DEC";
-			break;
-		}
-		
-		return args[0] + " / "+result;
 	}
 
 	public List<Data> getDataList() {
