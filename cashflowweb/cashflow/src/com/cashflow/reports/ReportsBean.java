@@ -26,14 +26,17 @@ public class ReportsBean implements java.io.Serializable {
 	private List<Data> dataList;
     private String xValues;
     private String data;
+    
+    private Integer accountSelected = 1;
 	
 	@PostConstruct
 	public void init() {
+		accountSelected = 1;
 		consultarReporteGeneral();
 	}
 
-	private void consultarReporteGeneral() {
-		List<Object[]> reportDataList = mainPersistenceManager.consultarReporteGeneralCuentasMes(50);
+	public void consultarReporteGeneral() {
+		List<Object[]> reportDataList = mainPersistenceManager.consultarReporteGeneralCuentasMes(accountSelected);
 		
 		
 		 List<String> xValues = new ArrayList<String>();
@@ -113,6 +116,14 @@ public class ReportsBean implements java.io.Serializable {
 
 	public void setData(String data) {
 		this.data = data;
+	}
+
+	public Integer getAccountSelected() {
+		return accountSelected;
+	}
+
+	public void setAccountSelected(Integer accountSelected) {
+		this.accountSelected = accountSelected;
 	}
 
 }

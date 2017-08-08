@@ -13,6 +13,7 @@ import javax.faces.model.SelectItem;
 import javax.servlet.http.HttpServletRequest;
 
 import com.cashflow.ejb.entity.Concepto;
+import com.cashflow.ejb.entity.Cuenta;
 import com.cashflow.ejb.entity.Detalle;
 import com.cashflow.ejb.entity.Movimiento;
 import com.cashflow.ejb.entityReport.Reporte;
@@ -30,6 +31,7 @@ public class MovimientosBean implements PaginatorInterface{
 	private List<Detalle> detalles;
 	
 	private List<SelectItem> conceptosItems = new ArrayList<SelectItem>();
+	private List<SelectItem> cuentasItems = new ArrayList<SelectItem>();
 	
 	private long ingresos;
 	private long gastos;
@@ -85,7 +87,16 @@ public class MovimientosBean implements PaginatorInterface{
 		gastos 		= AccessDatabase.getInstance().getSaldo("concEsgasto", "detaCredito") ;
 		movimiento = new Movimiento();
 		cargarConceptos();
+		cargarCuentas();
 		paginator.setTotalRecords(AccessDatabase.getInstance().countRecords("Detalle"));
+	}
+
+
+	private void cargarCuentas() {
+		List<Cuenta> cuentas = AccessDatabase.getInstance().consultarCuentas();
+		for (Cuenta cuenta: cuentas) {
+			cuentasItems.add(new SelectItem(cuenta.getCuenId(), cuenta.getCuenNombre()));
+		}
 	}
 
 
@@ -229,5 +240,15 @@ public class MovimientosBean implements PaginatorInterface{
 
 	public void setDetalles(List<Detalle> detalles) {
 		this.detalles = detalles;
+	}
+
+
+	public List<SelectItem> getCuentasItems() {
+		return cuentasItems;
+	}
+
+
+	public void setCuentasItems(List<SelectItem> cuentasItems) {
+		this.cuentasItems = cuentasItems;
 	}
 }

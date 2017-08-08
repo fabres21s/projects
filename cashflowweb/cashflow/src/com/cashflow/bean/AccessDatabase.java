@@ -66,5 +66,10 @@ public class AccessDatabase {
 	public List<Detalle> consultarDetalles(DetalleFilter detalleFilter) {
 		return mainPersistenceManager.consultarDetalles(detalleFilter);
 	}
+
+
+	public List<Cuenta> consultarCuentas() {
+		return mainPersistenceManager.consultarCuentas();
+	}
 	
 }

@@ -144,4 +144,10 @@ public class CashflowStatelessBean implements CashflowStatelessBeanLocal {
 		return new ArrayList<Object[]>();
 	}
 
+	@Override
+	public List<Cuenta> consultarCuentas() {
+		query = em.createNamedQuery("Cuenta.findAll");
+		return query.getResultList();
+	}
+
 }
