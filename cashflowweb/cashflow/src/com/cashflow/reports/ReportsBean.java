@@ -11,6 +11,7 @@ import javax.faces.model.SelectItem;
 
 import com.cashflow.bean.CashflowBean;
 import com.cashflow.bean.MovimientosBean;
+import com.cashflow.ejb.entity.Concepto;
 import com.cashflow.ejb.entity.Cuenta;
 import com.cashflow.ejb.session.CashflowStatelessBeanLocal;
 import com.google.gson.Gson;
@@ -29,13 +30,15 @@ public class ReportsBean implements java.io.Serializable {
 	private String data;
 
 	private Cuenta accountSelected;
+	private List<SelectItem> conceptosItems;
+	private Concepto conceptSelected;
 
 	@ManagedProperty("#{movimientosBean}")
 	private MovimientosBean movimientosBean;
-	
+
 	@ManagedProperty("#{cashflowBean}")
 	private CashflowBean cashflowBean;
-	
+
 	private CashflowStatelessBeanLocal mainPersistenceManager;
 
 	@PostConstruct
@@ -43,15 +46,45 @@ public class ReportsBean implements java.io.Serializable {
 		setAccountSelected(new Cuenta());
 		getAccountSelected().setCuenId(1);
 		getAccountSelected().setCuenNombre("EFECTIVO");
-		
+
 		mainPersistenceManager = getCashflowBean().getMainPersistenceManager();
-		
+
+		conceptSelected = new Concepto();
+		conceptSelected.setConcNombre("Todos los conceptos");
+		conceptSelected.setConcId(-1);
+
+		consultarConceptos();
+
 		consultarReporteGeneral();
 	}
 
+	public void consultarConceptos() {
+		conceptosItems = new ArrayList<SelectItem>();
+		conceptosItems.add(new SelectItem(-1, "Todos los conceptos"));
+
+		List<Concepto> conceptos = mainPersistenceManager.consultarConceptosPorCuentaId(accountSelected.getCuenId());
+		for (Concepto concepto : conceptos) {
+			conceptosItems.add(new SelectItem(concepto.getConcId(), concepto.getConcNombre()));
+		}
+	}
+
 	public void consultarReporteGeneral() {
-		List<Object[]> reportDataList = mainPersistenceManager
-				.consultarReporteGeneralCuentasMes(getAccountSelected().getCuenId());
+		List<Object[]> reportDataList = new ArrayList<Object[]>();
+
+		
+		for (SelectItem selectItem: conceptosItems) {
+			if (selectItem.getValue().equals(conceptSelected.getConcId())) {
+				conceptSelected.setConcNombre(selectItem.getLabel());
+				break;
+			}
+		}
+		
+		if (conceptSelected.getConcId() == -1) {
+			//TODO Cambio por periodo
+			reportDataList = mainPersistenceManager.consultarReporteGeneralCuentasMes(getAccountSelected().getCuenId());
+		} else {
+			reportDataList = mainPersistenceManager.consultarReportePorConcepto(conceptSelected.getConcId());
+		}
 
 		List<String> xValues = new ArrayList<String>();
 
@@ -175,6 +208,22 @@ public class ReportsBean implements java.io.Serializable {
 
 	public void setCashflowBean(CashflowBean cashflowBean) {
 		this.cashflowBean = cashflowBean;
+	}
+
+	public List<SelectItem> getConceptosItems() {
+		return conceptosItems;
+	}
+
+	public void setConceptosItems(List<SelectItem> conceptosItems) {
+		this.conceptosItems = conceptosItems;
+	}
+
+	public Concepto getConceptSelected() {
+		return conceptSelected;
+	}
+
+	public void setConceptSelected(Concepto conceptSelected) {
+		this.conceptSelected = conceptSelected;
 	}
 
 }

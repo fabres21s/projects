@@ -11,6 +11,7 @@ import java.util.List;
  */
 @Entity
 @NamedQuery(name="Concepto.findAll", query="SELECT c FROM Concepto c")
+//@NamedQuery(name="Concepto.findByCuenta", query="SELECT c FROM Concepto c ")
 public class Concepto implements Serializable {
 	private static final long serialVersionUID = 1L;
 

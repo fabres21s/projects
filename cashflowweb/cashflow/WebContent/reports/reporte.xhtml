@@ -22,7 +22,11 @@ ${
 demo
 
 
+
+
 .css
+
+
 
 
 }
@@ -38,7 +42,7 @@ demo
                  x: -20 //center
              },
              subtitle: {
-                 text: 'Todos los conceptos',
+                 text: '#{reportsBean.conceptSelected.concNombre}',
                  x: -20
              },
              xAxis: {
@@ -86,34 +90,60 @@ demo
 								<span class="menu-icon append-icon"><i class="icon-graph"></i></span>
 								<strong>Reporte General de Cuentas</strong>
 							</h5>
-							
-							<div class="form-group">
-								<label class="col-sm-1 control-label">Cuenta</label>
-								<div class="col-sm-7 controls">
+
+							  
+							<div class="panel-body">
+								<h:panelGroup class="form-horizontal" id="formReportes">
+									<div class="form-group">
+										<label class="col-sm-1 control-label">Cuenta</label>
+										<div class="col-sm-7 controls">
 
 
-									<h:selectOneMenu class="width-30" id ="selectAccount"
-										value="#{reportsBean.accountSelected.cuenId}">
-										<f:selectItems value="#{movimientosBean.cuentasItems}" />
-									</h:selectOneMenu>
+											<h:selectOneMenu class="width-30" id="selectAccount"
+												value="#{reportsBean.accountSelected.cuenId}">
+												<f:selectItems value="#{movimientosBean.cuentasItems}" />
+												<f:ajax listener="#{reportsBean.consultarConceptos}"
+													render="selectConcept"></f:ajax>
+											</h:selectOneMenu>
 
-								</div>
+										</div>
+									</div>
+
+
+									<div class="form-group">
+										<label class="col-sm-1 control-label">Concepto</label>
+										<div class="col-sm-7 controls">
+
+
+											<h:selectOneMenu class="width-30" id="selectConcept"
+												value="#{reportsBean.conceptSelected.concId}">
+												<f:selectItems value="#{reportsBean.conceptosItems}" />
+											</h:selectOneMenu>
+
+										</div>
+									</div>
+
+									<div class="form-group form-actions">
+										<div class="col-sm-4"></div>
+
+										<div class="col-sm-7">
+
+
+
+											<h:commandButton
+												action="#{reportsBean.consultarReporteGeneral}"
+												value="Consultar"
+												styleClass="btn vd_btn vd_bg-green vd_white">
+												<f:ajax render="@form"
+													execute="selectAccount, selectConcept"></f:ajax>
+											</h:commandButton>
+
+										</div>
+									</div>
+									  
+								</h:panelGroup>
 							</div>
-							
-							<div class="form-group form-actions">
-								<div class="col-sm-4"></div>
-								<div class="col-sm-7">
-									
-									
-									 
-									<h:commandButton action="#{reportsBean.consultarReporteGeneral}" value="Consultar" styleClass="btn vd_btn vd_bg-green vd_white">
-											<f:ajax render="@form" execute="selectAccount"></f:ajax>
-									</h:commandButton>
 
-								</div>
-							</div>
-							
-							
 							<div id="container"
 								style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 						</div>

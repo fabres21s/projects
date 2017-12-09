@@ -150,4 +150,32 @@ public class CashflowStatelessBean implements CashflowStatelessBeanLocal {
 		return query.getResultList();
 	}
 
+	@Override
+	public List<Concepto> consultarConceptosPorCuentaId(Integer cuenId) {
+		query = em.createQuery("SELECT c FROM Concepto c WHERE c.cuentaCredito.cuenId = :cuenId OR c.cuentaDebito.cuenId = :cuenId ORDER BY c.concNombre");
+		
+		query.setParameter("cuenId", cuenId);
+		return query.getResultList();
+	}
+
+	@Override
+	public List<Object[]> consultarReportePorConcepto(Integer concId) {
+
+		try {
+			query = em.createNativeQuery(
+					"select  to_char(m.movi_fecha, 'YYYY/MM') as mes, c.conc_nombre, sum(d.deta_debito) as ingresos, 0 from "
+							+ "detalle d  "
+							+ "inner join movimiento m on m.movi_id = d.movi_id "
+							+ "inner join concepto c on c.conc_id = m.conc_id "
+							+ "where c.conc_id = "+concId
+							+ "group by mes, c.conc_nombre "
+							+ "order by mes");
+
+			return query.getResultList();
+		} catch (Exception exc) {
+			exc.printStackTrace();
+		}
+		return new ArrayList<Object[]>();
+	}
+
 }

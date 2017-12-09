@@ -33,4 +33,8 @@ public interface CashflowStatelessBeanLocal {
 
 	List<Cuenta> consultarCuentas();
 
+	List<Concepto> consultarConceptosPorCuentaId(Integer cuenId);
+
+	List<Object[]> consultarReportePorConcepto(Integer concId);
+
 }
