@@ -4,10 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.model.SelectItem;
 
+import com.cashflow.bean.CashflowBean;
+import com.cashflow.bean.MovimientosBean;
+import com.cashflow.ejb.entity.Cuenta;
 import com.cashflow.ejb.session.CashflowStatelessBeanLocal;
 import com.google.gson.Gson;
 
@@ -19,79 +23,110 @@ public class ReportsBean implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 6030768777676931847L;
-	
-	@EJB(lookup = "java:global/cashflow-ejb/CashflowStatelessBean!com.cashflow.ejb.session.CashflowStatelessBeanLocal")
-	private CashflowStatelessBeanLocal mainPersistenceManager;
-	
+
 	private List<Data> dataList;
-    private String xValues;
-    private String data;
-    
-    private Integer accountSelected = 1;
+	private String xValues;
+	private String data;
+
+	private Cuenta accountSelected;
+
+	@ManagedProperty("#{movimientosBean}")
+	private MovimientosBean movimientosBean;
 	
+	@ManagedProperty("#{cashflowBean}")
+	private CashflowBean cashflowBean;
+	
+	private CashflowStatelessBeanLocal mainPersistenceManager;
+
 	@PostConstruct
 	public void init() {
-		accountSelected = 1;
+		setAccountSelected(new Cuenta());
+		getAccountSelected().setCuenId(1);
+		getAccountSelected().setCuenNombre("EFECTIVO");
+		
+		mainPersistenceManager = getCashflowBean().getMainPersistenceManager();
+		
 		consultarReporteGeneral();
 	}
 
 	public void consultarReporteGeneral() {
-		List<Object[]> reportDataList = mainPersistenceManager.consultarReporteGeneralCuentasMes(accountSelected);
-		
-		
-		 List<String> xValues = new ArrayList<String>();
-		 
-		 List<Double> yValuesIngresos = new ArrayList<Double>();
-		 List<Double> yValuesTotalIngresos = new ArrayList<Double>();
-		 List<Double> yValuesPromedioIngresos = new ArrayList<Double>();
-		 
-		 List<Double> yValuesEgresos = new ArrayList<Double>();
-		 List<Double> yValuesTotalEgresos = new ArrayList<Double>();
-		 List<Double> yValuesPromedioEgresos = new ArrayList<Double>();
-		 
-		 Double totalIngresos = 0.0, totalEgresos = 0.0;
-		 Double averageIngresos = 0.0, averageEgresos = 0.0;
-		 int count = 0;
-		 Double valueIngresos = 0.0, valueEgresos= 0.0;
-		 
-		 String name = "";
-		 for (Object[] reportData : reportDataList) {
-			 
-			 valueIngresos = Double.valueOf(String.valueOf(reportData[2]));
-			 valueEgresos = Double.valueOf(String.valueOf(reportData[3]));
-			 
-			 xValues.add(("'"+String.valueOf(reportData[0]))+"'");
-			 
-			 yValuesIngresos.add(valueIngresos);
-			 yValuesEgresos.add(valueEgresos);
-			 
-			 name = String.valueOf(reportData[1]);
-			 
-			 totalIngresos += valueIngresos;
-			 totalEgresos += valueEgresos;
-			 count ++;
-			 averageIngresos = totalIngresos / count;
-			 averageEgresos = totalEgresos / count;
-			 
-			 yValuesTotalIngresos.add(totalIngresos);
-			 yValuesPromedioIngresos.add(averageIngresos);
-			 yValuesTotalEgresos.add(totalEgresos);
-			 yValuesPromedioEgresos.add(averageEgresos);
-		 }
+		List<Object[]> reportDataList = mainPersistenceManager
+				.consultarReporteGeneralCuentasMes(getAccountSelected().getCuenId());
 
-	        dataList = new ArrayList<>();
+		List<String> xValues = new ArrayList<String>();
 
-	        dataList.add(new Data(name +" Ingresos", yValuesIngresos, "column"));
-	        dataList.add(new Data("Promedio Ingresos", yValuesPromedioIngresos, "spline"));
-	        dataList.add(new Data("Total ingresos", yValuesTotalIngresos, "spline"));
-	        
-	        dataList.add(new Data(name +" Egresos", yValuesEgresos, "column"));
-	        dataList.add(new Data("Promedio egresos", yValuesPromedioEgresos, "spline"));
-	        dataList.add(new Data("Total egresos", yValuesTotalEgresos, "spline"));
+		List<Double> yValuesIngresos = new ArrayList<Double>();
+		List<Double> yValuesTotalIngresos = new ArrayList<Double>();
+		List<Double> yValuesPromedioIngresos = new ArrayList<Double>();
 
+		List<Double> yValuesEgresos = new ArrayList<Double>();
+		List<Double> yValuesTotalEgresos = new ArrayList<Double>();
+		List<Double> yValuesPromedioEgresos = new ArrayList<Double>();
 
-	        this.xValues = xValues.toString();
-	        data = new Gson().toJson(dataList);
+		Double totalIngresos = 0.0, totalEgresos = 0.0;
+		Double averageIngresos = 0.0, averageEgresos = 0.0;
+		int countIngresos = 0, countEgresos = 0;
+		Double valueIngresos = 0.0, valueEgresos = 0.0;
+
+		String name = "";
+		for (Object[] reportData : reportDataList) {
+
+			valueIngresos = Double.valueOf(String.valueOf(reportData[2]));
+			valueEgresos = Double.valueOf(String.valueOf(reportData[3]));
+
+			xValues.add(("'" + String.valueOf(reportData[0])) + "'");
+
+			yValuesIngresos.add(valueIngresos);
+			yValuesEgresos.add(valueEgresos);
+
+			name = String.valueOf(reportData[1]);
+
+			totalIngresos += valueIngresos;
+			totalEgresos += valueEgresos;
+
+			if (valueIngresos > 0) {
+				countIngresos++;
+				averageIngresos = totalIngresos / countIngresos;
+
+			}
+
+			if (valueEgresos > 0) {
+				countEgresos++;
+				averageEgresos = totalEgresos / countEgresos;
+
+			}
+
+			yValuesTotalIngresos.add(totalIngresos);
+			yValuesPromedioIngresos.add(averageIngresos);
+			yValuesTotalEgresos.add(totalEgresos);
+			yValuesPromedioEgresos.add(averageEgresos);
+
+		}
+
+		dataList = new ArrayList<>();
+
+		if (totalIngresos > 0) {
+			dataList.add(new Data(name + " Ingresos", yValuesIngresos, "column"));
+			dataList.add(new Data("Promedio Ingresos", yValuesPromedioIngresos, "spline"));
+			dataList.add(new Data("Total ingresos", yValuesTotalIngresos, "spline"));
+		}
+
+		if (totalEgresos > 0) {
+			dataList.add(new Data(name + " Egresos", yValuesEgresos, "column"));
+			dataList.add(new Data("Promedio egresos", yValuesPromedioEgresos, "spline"));
+			dataList.add(new Data("Total egresos", yValuesTotalEgresos, "spline"));
+		}
+
+		this.xValues = xValues.toString();
+		data = new Gson().toJson(dataList);
+
+		for (SelectItem selectItem : getMovimientosBean().getCuentasItems()) {
+			if (selectItem.getValue().equals(getAccountSelected().getCuenId())) {
+				getAccountSelected().setCuenNombre(selectItem.getLabel());
+				break;
+			}
+		}
+
 	}
 
 	public List<Data> getDataList() {
@@ -118,12 +153,28 @@ public class ReportsBean implements java.io.Serializable {
 		this.data = data;
 	}
 
-	public Integer getAccountSelected() {
+	public MovimientosBean getMovimientosBean() {
+		return movimientosBean;
+	}
+
+	public void setMovimientosBean(MovimientosBean movimientosBean) {
+		this.movimientosBean = movimientosBean;
+	}
+
+	public Cuenta getAccountSelected() {
 		return accountSelected;
 	}
 
-	public void setAccountSelected(Integer accountSelected) {
+	public void setAccountSelected(Cuenta accountSelected) {
 		this.accountSelected = accountSelected;
+	}
+
+	public CashflowBean getCashflowBean() {
+		return cashflowBean;
+	}
+
+	public void setCashflowBean(CashflowBean cashflowBean) {
+		this.cashflowBean = cashflowBean;
 	}
 
 }

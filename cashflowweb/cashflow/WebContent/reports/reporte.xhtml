@@ -34,11 +34,11 @@ demo
 	 $(function () {
          Highcharts.chart('container', {//container = div id si
              title: {
-                 text: 'Monthly Average Temperature',
+                 text:  'Reporte de #{reportsBean.accountSelected.cuenNombre}',
                  x: -20 //center
              },
              subtitle: {
-                 text: 'Source: WorldClimate.com',
+                 text: 'Todos los conceptos',
                  x: -20
              },
              xAxis: {
@@ -46,7 +46,7 @@ demo
              },
              yAxis: {
                  title: {
-                     text: 'Temperature (°C)'
+                     text: '$'
                  },
                  plotLines: [{
                          value: 0,
@@ -55,7 +55,7 @@ demo
                      }]
              },
              tooltip: {
-                 valueSuffix: '°C'
+                 valueSuffix: '$'
              },
              legend: {
                  layout: 'vertical',
@@ -84,16 +84,16 @@ demo
 						<div class="pd-20">
 							<h5 class="mgbt-xs-20 mgtp-20">
 								<span class="menu-icon append-icon"><i class="icon-graph"></i></span>
-								<strong>Revenue Vs Cost Graph</strong> (November)
+								<strong>Reporte General de Cuentas</strong>
 							</h5>
 							
 							<div class="form-group">
-								<label class="col-sm-4 control-label">Cuenta</label>
+								<label class="col-sm-1 control-label">Cuenta</label>
 								<div class="col-sm-7 controls">
 
 
-									<h:selectOneMenu class="width-70" id ="selectAccount"
-										value="#{reportsBean.accountSelected}">
+									<h:selectOneMenu class="width-30" id ="selectAccount"
+										value="#{reportsBean.accountSelected.cuenId}">
 										<f:selectItems value="#{movimientosBean.cuentasItems}" />
 									</h:selectOneMenu>
 

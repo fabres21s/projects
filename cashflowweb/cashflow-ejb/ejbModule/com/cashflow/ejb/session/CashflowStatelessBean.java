@@ -135,7 +135,7 @@ public class CashflowStatelessBean implements CashflowStatelessBeanLocal {
 					"select  to_char(m.movi_fecha, 'YYYY/MM') as mes, c.cuen_nombre, sum(d.deta_debito) as ingresos, sum(d.deta_credito) as egresos from "
 							+ "detalle d  right join cuenta c on  d.cuen_id = c.cuen_id  "
 							+ "inner join movimiento m on m.movi_id = d.movi_id " + "WHERE c.cuen_id = " + id
-							+ "group by mes, c.cuen_nombre, c.cuen_essaldo " + "order by  c.cuen_nombre, mes");
+							+ "group by mes, c.cuen_nombre, c.cuen_essaldo " + "order by  mes, c.cuen_nombre");
 
 			return query.getResultList();
 		} catch (Exception exc) {

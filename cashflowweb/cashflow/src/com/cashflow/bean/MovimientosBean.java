@@ -1,13 +1,14 @@
 package com.cashflow.bean;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.servlet.http.HttpServletRequest;
@@ -20,12 +21,16 @@ import com.cashflow.ejb.entityReport.Reporte;
 import com.cashflow.ejb.filter.DetalleFilter;
 import com.cashflow.ejb.paginator.Paginator;
 import com.cashflow.ejb.paginator.PaginatorInterface;
+import com.cashflow.ejb.session.CashflowStatelessBeanLocal;
 
-@ManagedBean
-@ViewScoped
+@ManagedBean(name="movimientosBean")
+@SessionScoped
 public class MovimientosBean implements PaginatorInterface{
 
+	@ManagedProperty("#{cashflowBean}")
+	private CashflowBean cashflowBean;
 
+	private CashflowStatelessBeanLocal mainPersistenceManager;
 
 	private List<Reporte> saldos;
 	private List<Detalle> detalles;
@@ -44,6 +49,8 @@ public class MovimientosBean implements PaginatorInterface{
 	
 	@PostConstruct
 	public void init() {
+		
+		mainPersistenceManager = cashflowBean.getMainPersistenceManager();
 		paginator = new Paginator(10, "d.movimiento.moviFecha", false, this);
 		reset();
 	}
@@ -54,7 +61,7 @@ public class MovimientosBean implements PaginatorInterface{
 	    String fecha = request.getParameter("fechaMov");
 		String valor = request.getParameter("valorMov");
 	    
-	    Concepto concepto = (Concepto)AccessDatabase.getInstance().findRecord(new Concepto(), conceptoSelected);
+	    Concepto concepto = (Concepto)mainPersistenceManager.findRecord(new Concepto(), conceptoSelected);
         movimiento.setConcepto(concepto);
         movimiento.setMoviFecha(Utils.getInstance().getDate(fecha));
         
@@ -76,32 +83,33 @@ public class MovimientosBean implements PaginatorInterface{
         detalles.add(detalle_credito);
         
         movimiento.setDetalles(detalles);
-        AccessDatabase.getInstance().persist(movimiento);
+        mainPersistenceManager.persist(movimiento);
 		reset();
 	}
 
 
 	private void reset() {
-		saldos 		= AccessDatabase.getInstance().consultarSaldos();
-		ingresos	= AccessDatabase.getInstance().getSaldo("concEsingreso", "detaDebito") ;
-		gastos 		= AccessDatabase.getInstance().getSaldo("concEsgasto", "detaCredito") ;
+		saldos 		= mainPersistenceManager.consultarSaldos();
+		ingresos	= mainPersistenceManager.getSaldo("concEsingreso", "detaDebito") ;
+		gastos 		= mainPersistenceManager.getSaldo("concEsgasto", "detaCredito") ;
 		movimiento = new Movimiento();
 		cargarConceptos();
 		cargarCuentas();
-		paginator.setTotalRecords(AccessDatabase.getInstance().countRecords("Detalle"));
+		paginator.setTotalRecords(mainPersistenceManager.countRecords("Detalle"));
 	}
 
 
 	private void cargarCuentas() {
-		List<Cuenta> cuentas = AccessDatabase.getInstance().consultarCuentas();
+		List<Cuenta> cuentas = mainPersistenceManager.consultarCuentas();
 		for (Cuenta cuenta: cuentas) {
 			cuentasItems.add(new SelectItem(cuenta.getCuenId(), cuenta.getCuenNombre()));
 		}
+		
 	}
 
 
 	private void cargarConceptos() {
-		List<Concepto> conceptos = AccessDatabase.getInstance().consultarConceptosActivos();
+		List<Concepto> conceptos = mainPersistenceManager.consultarConceptosActivos();
 		for (Concepto c : conceptos) {
 			conceptosItems.add(new SelectItem(c.getConcId(), c.getConcNombre()));
 		}
@@ -219,7 +227,7 @@ public class MovimientosBean implements PaginatorInterface{
 	public void updatetable() {
 		
 		
-		detalles = AccessDatabase.getInstance().consultarDetalles(new DetalleFilter(paginator));
+		detalles = mainPersistenceManager.consultarDetalles(new DetalleFilter(paginator));
 	}
 
 
@@ -250,5 +258,15 @@ public class MovimientosBean implements PaginatorInterface{
 
 	public void setCuentasItems(List<SelectItem> cuentasItems) {
 		this.cuentasItems = cuentasItems;
+	}
+
+
+	public CashflowBean getCashflowBean() {
+		return cashflowBean;
+	}
+
+
+	public void setCashflowBean(CashflowBean cashflowBean) {
+		this.cashflowBean = cashflowBean;
 	}
 }

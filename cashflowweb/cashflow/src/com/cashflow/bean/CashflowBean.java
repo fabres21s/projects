@@ -1,12 +1,12 @@
 package com.cashflow.bean;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.bean.ViewScoped;
 
 import com.cashflow.ejb.entity.Cuenta;
 import com.cashflow.ejb.entityReport.Reporte;
@@ -14,16 +14,22 @@ import com.cashflow.ejb.paginator.Paginator;
 import com.cashflow.ejb.paginator.PaginatorInterface;
 import com.cashflow.ejb.session.CashflowStatelessBeanLocal;
 
-@ManagedBean
-@ViewScoped
+/**
+ * 
+ * @author fabio
+ * 
+ * Bean principal
+ *
+ */
+
+@ManagedBean(name="cashflowBean")
+@SessionScoped
 public class CashflowBean implements PaginatorInterface{
 
 
 	@EJB(lookup = "java:global/cashflow-ejb/CashflowStatelessBean!com.cashflow.ejb.session.CashflowStatelessBeanLocal")
 	private CashflowStatelessBeanLocal mainPersistenceManager;
 	
-	private AccessDatabase accessDatabase;
-
 	private List<Cuenta> cuentas;
 	private List<Reporte> saldos;
 	private Places places;
@@ -33,13 +39,11 @@ public class CashflowBean implements PaginatorInterface{
 	
 	@PostConstruct
 	public void init() {
-		accessDatabase = AccessDatabase.getInstance();
-		accessDatabase.setMainpersistence(mainPersistenceManager);
 		
 		places = Places.getInstance();
 		
 		paginator = new Paginator(7,"id",true, this);
-		paginator.setTotalRecords(accessDatabase.countRecords("Cuenta"));
+		paginator.setTotalRecords(getMainPersistenceManager().countRecords("Cuenta"));
 		updatetable();
 		
 	}
@@ -103,5 +107,13 @@ public class CashflowBean implements PaginatorInterface{
 
 	public void setPlaces(Places places) {
 		this.places = places;
+	}
+
+	public CashflowStatelessBeanLocal getMainPersistenceManager() {
+		return mainPersistenceManager;
+	}
+
+	public void setMainPersistenceManager(CashflowStatelessBeanLocal mainPersistenceManager) {
+		this.mainPersistenceManager = mainPersistenceManager;
 	}
 }
