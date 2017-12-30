@@ -101,6 +101,7 @@ public class MovimientosBean implements PaginatorInterface{
 
 	private void cargarCuentas() {
 		List<Cuenta> cuentas = mainPersistenceManager.consultarCuentas();
+		cuentasItems.clear();
 		for (Cuenta cuenta: cuentas) {
 			cuentasItems.add(new SelectItem(cuenta.getCuenId(), cuenta.getCuenNombre()));
 		}
@@ -110,6 +111,7 @@ public class MovimientosBean implements PaginatorInterface{
 
 	private void cargarConceptos() {
 		List<Concepto> conceptos = mainPersistenceManager.consultarConceptosActivos();
+		conceptosItems.clear();
 		for (Concepto c : conceptos) {
 			conceptosItems.add(new SelectItem(c.getConcId(), c.getConcNombre()));
 		}

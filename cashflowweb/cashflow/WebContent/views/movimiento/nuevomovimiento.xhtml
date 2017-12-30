@@ -48,7 +48,7 @@
 								<div class="col-sm-7 controls">
 
 
-									<h:selectOneMenu class="width-70"
+									<h:selectOneMenu class="width-70" id="listConceptos"
 										value="#{movimientosBean.conceptoSelected}">
 										<f:selectItems value="#{movimientosBean.conceptosItems}" />
 									</h:selectOneMenu>
@@ -80,14 +80,14 @@
 								<div class="col-sm-7">
 									
 									
-									 
+									 <!--  
 									<button type="button" class="btn vd_btn vd_bg-green vd_white"
 										data-toggle="modal" data-target="#myModal">
 										<i class="icon-ok"></i> Guardar
-									</button>
+									</button>-->
 									
-									<h:commandButton action="#{movimientosBean.guardarMovimiento}" value="GuardarC" styleClass="btn vd_btn vd_bg-green vd_white">
-											<f:ajax render="listSaldos txtIngresos txtGastos txtSaldo listMovimientos" execute="formMovimientos"></f:ajax>
+									<h:commandButton action="#{movimientosBean.guardarMovimiento}" value="Guardar" styleClass="btn vd_btn vd_bg-green vd_white">
+											<f:ajax render="listConceptos listSaldos txtIngresos txtGastos txtSaldo listMovimientos" execute="formMovimientos"></f:ajax>
 									</h:commandButton>
 									
 									<button class="btn vd_btn" type="button">Cancelar</button>
